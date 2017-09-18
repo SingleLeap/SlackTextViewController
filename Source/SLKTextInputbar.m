@@ -117,6 +117,17 @@ NSString * const SLKTextInputbarDidMoveNotification =   @"SLKTextInputbarDidMove
     [super layoutIfNeeded];
 }
 
+// Compensate for layout bug in iOS 11 Beta 2.
+// Cribbed from https://github.com/Recfive/SlackTextViewController/commit/2b4cee5acfdf13e194b05459090edda6da9612a6
+- (void)layoutSubviews
+{
+   [super layoutSubviews];
+
+   [self bringSubviewToFront:self.textView];
+   [self bringSubviewToFront:self.rightButton];
+   [self bringSubviewToFront:self.leftButton];
+}
+
 - (CGSize)intrinsicContentSize
 {
     return CGSizeMake(UIViewNoIntrinsicMetric, [self minimumInputbarHeight]);
